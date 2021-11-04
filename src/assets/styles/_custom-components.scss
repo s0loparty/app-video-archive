@@ -13,3 +13,9 @@
 .multiselect.is-active {
 	box-shadow: 0 0 4px var(--color-primary) !important;
 }
+
+@media screen and (max-width: $bp-sm) {
+	.multiselect {
+		max-width: 100%;
+	}
+}

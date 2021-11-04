@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="video__wrap card">
 				<section class="video__header">
-					<h2 class="title">Ролики которые Вы смотрели</h2>
+					<h2 class="video__header-title title">Ролики которые Вы смотрели</h2>
 					<p v-if="!videos.length" style="margin-bottom: 0;">История просмотров пуста</p>
 				</section>
 				<VideoListVue :videos="videos"></VideoListVue>

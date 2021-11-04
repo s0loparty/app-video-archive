@@ -51,10 +51,10 @@ export default {
 		const shareLink = computed(() => location.origin + route.path)
 
 		const id = computed(() => +route.params.id)
-		console.log('id: ', id.value)
+		// console.log('id: ', id.value)
 
 		const video = computed(() => store.getters.getVideos?.[id.value -1])
-		console.log('video:', video.value)
+		// console.log('video:', video.value)
 
 		const categoryName = computed(() => store.getters.getCategories?.[video.value.categoryId])
 
