@@ -1,0 +1,15 @@
+// multiselect
+.multiselect {
+	width: auto !important;
+	min-width: 200px;
+	max-width: 300px;
+	margin: 0 !important;
+}
+.multiselect-option.is-selected.is-pointed,
+.multiselect-option.is-selected {
+	background: var(--color-primary) !important;
+}
+
+.multiselect.is-active {
+	box-shadow: 0 0 4px var(--color-primary) !important;
+}

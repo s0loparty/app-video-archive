@@ -1,0 +1,31 @@
+:root {
+	// body
+	--body-bg: #E5EAF6;
+	--body-color: #3B455E;
+
+	// header
+	--header-h: 60px;
+	--header-z: 50;
+
+	// card
+	--card-bg: var(--color-white);
+	--card-radius: 10px;
+	--card-padding: 20px;
+
+	// video
+	--video-item-w: 100%;
+	--video-item-h: 160px;
+
+	// colors
+	--color-white: #fff;
+	--color-primary: #E71C61;
+	--color-secondary: #7A869A;
+}
+
+$bp-xs: 0;
+$bp-smx: 430px;
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 992px;
+$bp-xl: 1200px;
+$bp-xxl: 1400px;

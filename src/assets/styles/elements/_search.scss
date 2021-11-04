@@ -1,0 +1,93 @@
+.search {
+	flex: 1 0 0;
+
+	&__wrap {
+		display: flex;
+		align-items: center;
+		padding: 0 30px;
+
+		position: relative;
+
+		@media screen and (max-width: $bp-sm) {
+			padding: 0 10px;
+		}
+	}
+	&__input {
+		box-sizing: border-box;
+		padding: 0 10px;
+		margin: 0;
+		border: 0;
+		border-radius: 2px;
+		min-height: 30px;
+		// min-width: 600px;
+		flex: 1 0 0;
+
+		&:focus {outline: none;}
+		&::placeholder {color: #ccc;}
+	}
+	&__btn {
+		box-sizing: border-box;
+		padding: 0;
+		border: 0;
+		border-radius: 2px;
+
+		width: 40px;
+		min-height: 30px;
+		margin-left: 10px;
+
+		display: inline-block;
+		align-items: center;
+		justify-content: center;
+
+		background-color: var(--color-white);
+		cursor: pointer;
+
+		&:focus {outline: none;}
+	}
+	&__btn-clear {
+		position: absolute;
+		right: 30px;
+		background: transparent;
+		border: 0;
+		color: #6a6a6a;
+		cursor: pointer;
+		padding: 5px 10px;
+		display: inline-flex;
+	}
+	&__svg {
+		margin-top: 2px;
+	}
+	&__result {
+		position: absolute;
+		top: 50px;
+		width: max-content;
+
+		display: flex;
+		flex-direction: column;
+
+		padding: 10px;
+		border-radius: 2px;
+		background-color: var(--color-white);
+		border: 1px solid var(--body-bg);
+		box-shadow: 0 0 5px var(--color-secondary);
+
+		@media screen and (max-width: $bp-sm) {
+			width: inherit;
+			box-sizing: border-box;
+			margin-right: 10px;
+		}
+	}
+	&__result-item {
+		display: inline-block;
+		text-decoration: none;
+		color: #444;
+		transition: all .3s;
+
+		margin-bottom: 15px;
+		&:last-child {margin-bottom: 0;}
+
+		&:hover {
+			color: var(--color-primary);
+		}
+	}
+}

@@ -1,0 +1,12 @@
+.logo {
+	display: inline-flex;
+	&__link {
+		display: inline-flex;
+		text-decoration: none;
+	}
+	&__svg {
+		width: 30px;
+		height: 30px;
+		fill: var(--color-white);
+	}
+}

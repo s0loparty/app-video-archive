@@ -1,0 +1,102 @@
+@media screen and (max-width: $bp-smx) {
+	$video-item-h: 180px;
+	$video-title-fs: 16px;
+	$video-title-bg: #000000a6;
+	$video-title-p: 10px;
+
+	body {
+		background-color: var(--color-white);
+		padding-top: var(--header-h);	
+	}
+
+	.container,
+	.card {
+		padding: 0;
+		border-radius: 0;
+	}
+
+	// header
+	.header > .container {padding: 0 20px;}
+	.logo {display: none;}
+	.search {
+		&__wrap {
+			padding: 0;
+			margin-right: 20px;
+		}
+		&__input {min-height: calc(var(--header-h) - 20px);}
+		&__btn-clear {
+			right: 5px;
+		}
+	}
+
+	// video
+	.video {
+		&__wrap {
+			margin-bottom: 0;
+
+			& .title {
+				// padding: 0 20px;
+				margin-bottom: 1rem;
+			}
+		}
+		&__header {
+			margin: 0;
+			padding: 20px;
+		}
+		&__header-title {
+			margin-bottom: 20px;
+		}
+		&__item {
+			border-radius: 0;
+			height: $video-item-h !important;
+		}
+		&__title {
+			padding: $video-title-p;
+			font-size: $video-title-fs;
+			background-color: $video-title-bg;
+		}
+	}
+
+	// video-page
+	.video-page {
+		&__content {
+			padding: 0 20px 20px 20px;
+			overflow: hidden;
+			border-bottom: 1px solid var(--color-secondary);
+
+			& .title {margin-top: 10px !important;}
+		}
+		&__wrap-player {
+			border-radius: 0;
+			width: calc(100% + 40px);
+			overflow: hidden;
+			margin-left: -20px;
+		}
+
+		// sidebar history
+		&__sidebar {
+			margin-bottom: 0;
+			
+			& > section > div:first-child {
+				padding: 0 20px 20px 20px;
+				margin-bottom: 0 !important;
+
+				& span {font-weight: bold;}
+			}
+			& .item {
+				border-radius: 0 !important;
+				height: $video-item-h !important;
+				&__title {
+					padding: $video-title-p !important;
+					font-size: $video-title-fs !important;
+					background-color: $video-title-bg !important;
+				}
+			}
+		}
+	}
+
+	// share
+	.share {
+		justify-content: center;
+	}
+}

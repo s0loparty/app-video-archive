@@ -1,0 +1,113 @@
+.video {
+	&__wrap {}
+	&__list {
+		display: grid;
+		grid-template-columns: 250px 250px 250px 250px;
+		justify-content: space-between;
+		grid-column-gap: 20px;
+    	grid-row-gap: 20px;
+	}
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		margin-bottom: 1.5rem;
+	}
+	&__header-title {
+		margin-bottom: 5px;
+	}
+
+	&__item {
+		position: relative;
+		// width: 250px;
+		width: 100%;
+		height: 140px;
+	
+		text-decoration: none;
+		overflow: hidden;
+		border-radius: 4px;
+		z-index: 5;
+	
+		& > * { transition: all .3s; }
+		&:hover .video__preview {transform: scale(1.3);}
+		&:hover .video__category {bottom: 0;}
+		&:hover .video__remove-link {right: 0;}
+	}
+	&__preview {
+		position: absolute;
+		content: "";
+		width: 100%;
+		height: 100%;
+
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-color: var(--body-bg);
+		background-image: url('https://via.placeholder.com/250x140');
+		// &--default-image {
+		// 	background-image: url('https://via.placeholder.com/250x140') !important;
+		// }
+	}
+	&__title {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+
+		padding: 5px;
+		font-size: 14px;
+		color: var(--color-white);
+		background-color: #44444475;
+	}
+	&__category {
+		position: absolute;
+		bottom: -100%;
+		left: 0;
+		right: 0;
+
+		padding: 5px;
+		font-size: 14px;
+		color: var(--color-white);
+		background-color: #00000075;
+	}
+	&__remove-link {
+		position: absolute;
+		padding: 4px 10px;
+		top: 0;
+		right: -100%;
+		background-color: var(--color-primary);
+		color: var(--color-white);
+		border-bottom-left-radius: 4px;
+		text-decoration: none;
+		z-index: 50;
+	}
+}
+
+@media screen and (max-width: $bp-xl) {
+	.video {
+		&__list {
+			grid-template-columns: 32% 32% 32%;
+		}
+	}
+}
+
+@media screen and (max-width: $bp-md) {
+	.video {
+		&__list {
+			grid-template-columns: 48% 48%;
+		}
+	}
+}
+
+@media screen and (max-width: $bp-sm) {
+	.video {
+		&__header {
+			display: block;
+		}
+		&__list {
+			grid-template-columns: 100%;
+		}
+	}
+}

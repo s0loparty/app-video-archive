@@ -1,0 +1,24 @@
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+
+	background-color: var(--color-secondary);
+	box-shadow: 0 0 5px var(--color-secondary);
+
+	z-index: var(--header-z);
+
+	&__wrap {
+		min-height: var(--header-h);
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		// & > * {
+		// 	border: 1px solid #fff;
+		// }
+	}
+}

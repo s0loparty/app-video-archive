@@ -1,0 +1,90 @@
+[
+	{
+		"id": 1,
+		"title": "Самый богатый человек в истории Манса Муса",
+		"categoryId": 0,
+		"views": 0,
+		"previewSrc": "https://poster.radikal.ru/2110/57/b5daa69c38db.jpg",
+		"videoUrl": "https://radikal.ru/vf/6C3P1jW9QAe"
+	},
+	{
+		"id": 2,
+		"title": "Одиночество и наша тяга к обществу",
+		"categoryId": 1,
+		"views": 3,
+		"previewSrc": "https://poster.radikal.ru/2110/dd/9f7c4d68fab8.jpg",
+		"videoUrl": "https://radikal.ru/vf/uzpP33BYPgC"
+	},
+	{
+		"id": 3,
+		"title": "Этот метод поможет улучшить ваше Критическое Мышление",
+		"categoryId": 0,
+		"views": 312,
+		"previewSrc": "https://poster.radikal.ru/2110/89/95a1f60318da.jpg",
+		"videoUrl": "https://radikal.ru/vf/oedBlaW0tGV"
+	},
+	{
+		"id": 4,
+		"title": "Страх счастья",
+		"categoryId": 1,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2110/e2/656f2a9dc401.jpg",
+		"videoUrl": "https://radikal.ru/vf/zglcx94OyEQ"
+	},
+	{
+		"id": 5,
+		"title": "Как быть уверенным",
+		"categoryId": 1,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2110/f5/65bfa932eb23.jpg",
+		"videoUrl": "https://radikal.ru/vf/7fH390IIq1V"
+	},
+	{
+		"id": 6,
+		"title": "Как не беспокоиться о том, что думают другие",
+		"categoryId": 1,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2110/9c/30d757ce0e1b.jpg",
+		"videoUrl": "https://radikal.ru/vf/m4N4fhGVYMu"
+	},
+	{
+		"id": 7,
+		"title": "Есть ли у животных язык",
+		"categoryId": 0,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2110/8c/f85aab6d9ab2.jpg",
+		"videoUrl": "https://radikal.ru/vf/KqixMzFitTF"
+	},
+	{
+		"id": 8,
+		"title": "3 закона Ньютона и велосипед",
+		"categoryId": 0,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2111/89/58e8bfd6b73b.jpg",
+		"videoUrl": "https://radikal.ru/vf/76Ek4WNlAZb"
+	},
+	{
+		"id": 9,
+		"title": "Большие дебаты о мозге",
+		"categoryId": 0,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2111/dc/2ac94caaef7c.jpg",
+		"videoUrl": "https://radikal.ru/vf/Z3bY0ezisiB"
+	},
+	{
+		"id": 10,
+		"title": "У дружбы есть цель",
+		"categoryId": 1,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2111/6f/0cded1454a8f.jpg",
+		"videoUrl": "https://radikal.ru/vf/HaEwVqqGCOg"
+	},
+	{
+		"id": 11,
+		"title": "Ловушка перфекционизма",
+		"categoryId": 1,
+		"views": 0,
+		"previewSrc": "https://poster4.radikal.ru/2111/13/2fdf10d477fe.jpg",
+		"videoUrl": "https://radikal.ru/vf/kxwdt1BOcOv"
+	}
+]
