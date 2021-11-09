@@ -1,5 +1,6 @@
 <template>
-	<TheHeaderVue></TheHeaderVue>
+	<!-- <TheLoader :show="loader"></TheLoader> -->
+	<TheHeader></TheHeader>
 	
 	<main>
 		<router-view />
@@ -7,22 +8,17 @@
 </template>
 
 <script>
-import TheHeaderVue from "./components/TheHeader.vue"
+import { computed, onMounted, ref, watch } from '@vue/runtime-core'
+import { useStore } from 'vuex'
+
+import TheHeader from "./components/TheHeader.vue"
+import TheLoader from './components/TheLoader.vue'
 
 export default {
-	setup() {
-		// const checkHosting = async () => {
-		// 	const response = await fetch('https://radikal.ru', { type: 'POST', mode: 'cors' })
-		// 	console.log(response);
-		// 	if (response.status !== 200) {
-		// 		alert('Сервис временно недоступен, зайдите позже')
-		// 	} 
-		// }
-
-		// checkHosting()
-	},
-	components: { TheHeaderVue }
+	// setup() {
+	// 	const store = useStore()
+	// 	onMounted(async () => await store.dispatch('request/requestVideos'))		
+	// },
+	components: { TheHeader, TheLoader }
 }
 </script>
-
-<style lang="scss" src="@/assets/styles/main.scss"></style>

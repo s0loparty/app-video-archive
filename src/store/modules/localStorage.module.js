@@ -6,16 +6,17 @@ export default {
 	},
 	getters: {
 		getHistory(state) {
+			return state.videoHistory
 			// return state.videoHistory.sort((a, b) => b - a).reverse()
-			return state.videoHistory.sort((a, b) => b - a).reverse()
 		}
 	},
 	mutations: {
 		addVideo(state, id) {
 			// проверку на валидный id
-			if (state.videoHistory.includes(+id)) return
+			if (state.videoHistory.includes(id)) return
+			else if (!id || id.lenght < 10) return
 
-			state.videoHistory.push(+id)			
+			state.videoHistory.push(id)			
 			this.commit('localStorage/updateLocalStorage')
 		},
 		removeVideo(state, id) {

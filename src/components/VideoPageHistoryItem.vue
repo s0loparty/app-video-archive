@@ -1,29 +1,31 @@
 <template>
-	<router-link :to="'/video/' + video.id" class="item">
-		<div class="item__preview" :style="`background-image: url(${video.previewSrc});`"></div>
-		<div class="item__title">{{ video.title }}</div>
-		<div class="item__category">{{ category }}</div>
+	<router-link :to="'/video/' + id" class="item">
+		<div class="item__preview" :style="`background-image: url(${preview});`"></div>
+		<div class="item__title">{{ title  }}</div>
+		<div class="item__category">{{ categoryName }}</div>
 	</router-link>
 </template>
 
 <script>
-import { useStore } from 'vuex'
-
 export default {
 	props: {
 		id: {
-			type: Number || String,
+			type: String,
 			required: true
+		},
+		title: {
+			type: String,
+			required: true
+		},
+		preview: {
+			type: String,
+			required: false,
+			default: 'https://via.placeholder.com/250x140'
+		},
+		categoryName: {
+			type: String,
+			requried: true
 		}
-	},
-	setup(props) {
-		const store = useStore()
-
-		const id = props.id
-		const video = store.getters.getVideos?.[id -1]
-		const category = store.getters.getCategories[video.categoryId]
-
-		return { video, category }
 	}
 }
 </script>

@@ -31,7 +31,7 @@
 						:to="'/video/' + result.id" 
 						@click="clickOnResultLink"
 						class="search__result-item"
-					>{{ result.title }}</router-link>
+					>{{ result.title }} [{{ $store.getters.getCategories[result.categoryId] }}]</router-link>
 				</div>
 			</div>
 		</form>
@@ -49,7 +49,7 @@ export default {
 
 		const SEARCH_MIN_LENGTH = 1
 
-		const videos = store.getters.getVideos
+		const videos = store.getters['firebase/getVideos']
 		const searchQuery = ref('')
 		const searchResults = ref([])
 

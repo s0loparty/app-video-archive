@@ -3,45 +3,58 @@
 		<div class="container">
 			<div class="video__wrap card">
 				<section class="video__header">
-					<h2 class="video__header-title title">Все ролики ({{ videos.length }})</h2>
+					<h2 class="video__header-title title">Все ролики</h2>
 					<Multiselect 
-						@change="selectCategory"
+						v-model="currentCategoryId"
 						:options="categories"
 						:native="false"
+						label="name"
 						rules="required"
 						placeholder="Выберите категорию"
 					></Multiselect>
 				</section>
 
-				<VideoListVue :videos="videos" :current-categoty="currentCategory"></VideoListVue>
+				<VideoList :videos="dataVideos"></VideoList>
 			</div>
 		</div>
 	</section>
 </template>
 
 <script>
-import  { provide, ref } from '@vue/runtime-core'
+import  { computed, provide, ref, watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
 
-import VideoListVue from "../../components/VideoList.vue"
+import VideoList from "../../components/VideoList.vue"
 import Multiselect from '@vueform/multiselect'
 
 export default {
 	setup() {
 		const store = useStore()
 
-		const categories = store.getters.getCategories
-		const currentCategory = ref(null)
-		const videos = store.getters.getVideos
+		const categories = computed(() => store.getters.getCategories.map((item, idx) => {
+			return { value: idx, name: item}
+		}))
+		const currentCategoryId = ref(null)
+		// const currentCategoryName = ref(null)
+		const allVideos = computed(() => store.getters['firebase/getVideos'])
+		const dataVideos = ref(allVideos.value)
+
+		// фильтр роликов
+		watch(currentCategoryId, (catId, o) => {
+			dataVideos.value = (catId !== null) ? allVideos.value.filter(v => v.categoryId === catId) : allVideos.value
+			// currentCategoryName.value = categories.value.find(i => i.value === currentCategoryId.value)?.name ?? null
+		})
 
 		provide('removeLink', false)
 
-		const selectCategory = name => 
-			currentCategory.value = (categories.indexOf(name) !== -1) ? categories.indexOf(name) : null
-
-		return { categories, videos, selectCategory, currentCategory }
+		return { 
+			categories, 
+			dataVideos, 
+			currentCategoryId, 
+			// currentCategoryName,
+		}
 	},
-	components: { VideoListVue, Multiselect }
+	components: { VideoList, Multiselect }
 }
 </script>
 

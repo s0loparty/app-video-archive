@@ -1,41 +1,40 @@
 <template>
-   <div class="video__list">
-		<VideoListItemVue 
-			v-for="video in videosFiltred" :key="video.id" 
+	<section v-if="dataVideos === null" class="video__list">
+		<TheLoaderContent :count="4" el="div" />
+	</section>
+	<section v-else-if="dataVideos?.length" class="video__list">
+		<VideoListItem 
+			v-for="video in dataVideos" :key="video.id" 
 			:id="video.id"
-			:preview="video.previewSrc"
-			:video="video.videoUrl"
 			:title="video.title"
-			:category="video.categoryId"
+			:categoryName="video.categoryName"
 		/>
-   </div>
+	</section>
+	<span v-else>Нет роликов</span>
 </template>
 
 <script>
-import { computed } from '@vue/reactivity'
+import { useStore } from 'vuex'
 
-import VideoListItemVue from "./VideoListItem.vue"
+import VideoListItem from "./VideoListItem.vue"
+import TheLoaderContent from './TheLoaderContent.vue'
+import { computed } from '@vue/reactivity'
 
 export default {
 	props: {
-		videos: {
-			type: Array,
-			required: true
-		},
-		currentCategoty: {
-			type: Number,
-			required: false,
-			default: null
-		}
+		videos: [Array, Boolean]
 	},
 	setup(props) {
-		const videosFiltred = computed(() => (props.currentCategoty === null) 
-			? props.videos
-			: props.videos.filter(item => item.categoryId === props.currentCategoty)
-		)
+		const store = useStore()
 
-		return { videosFiltred }
+		// только ради названия категории
+		// лучше так, чем в item каждый раз трогать стор и искать категорию
+		const dataVideos = computed(() => props.videos.map(i =>  {
+			return {...i, categoryName: store.getters.getCategories[i.categoryId]}
+		}))
+
+		return { dataVideos }
 	},
-	components: { VideoListItemVue }
+	components: { VideoListItem, TheLoaderContent }
 }
 </script>

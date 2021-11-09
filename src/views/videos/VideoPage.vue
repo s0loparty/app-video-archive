@@ -2,17 +2,17 @@
 	<section class="video-page">
 		<div class="container">
 			<div class="video-page__wrap">
-				<div class="video-page__content card">
-					<VideoPagePlayerVue 
-						:video-url="video.videoUrl" 
-						:preview-src="video.previewSrc"
-					></VideoPagePlayerVue>
+				<div v-if="video" class="video-page__content card">
+					<VideoPagePlayer 
+						:video-url="video.source" 
+						:preview-src="video.preview"
+					></VideoPagePlayer>
 
-					<VideoPageInfoVue 
+					<VideoPageInfo 
 						:title="video.title" 
 						:views="video.views"
 						:category="categoryName"
-					></VideoPageInfoVue>
+					></VideoPageInfo>
 
 					<!-- share -->
 					<div class="share-video">
@@ -23,8 +23,11 @@
 					<!-- <hr>
 					<p>comments: Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sint vero recusandae culpa ducimus sit nulla quasi architecto eaque delectus distinctio, hic dolorum sequi non sapiente suscipit voluptatem, nihil, quaerat tempora.</p> -->
 				</div>
+				<div v-else class="video-page__content card">
+					<h3>Нет такого ролика или не удалось получить данные</h3>
+				</div>
 				<aside class="video-page__sidebar card">
-					<VideoHistoryListVue></VideoHistoryListVue>
+					<VideoPageHistoryList></VideoPageHistoryList>
 				</aside>
 			</div>
 		</div>
@@ -32,48 +35,88 @@
 </template>
 
 <script>
-import { computed, reactive, ref, toRef } from '@vue/reactivity'
+import { computed, ref } from '@vue/reactivity'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { onMounted, watch } from '@vue/runtime-core'
 
-import VideoPagePlayerVue from '../../components/VideoPagePlayer.vue'
-import VideoPageInfoVue from '../../components/VideoPageInfo.vue'
-import VideoHistoryListVue from '../../components/VideoHistoryList.vue'
-
+import VideoPagePlayer from '../../components/VideoPagePlayer.vue'
+import VideoPageInfo from '../../components/VideoPageInfo.vue'
+import VideoPageHistoryList from '../../components/VideoPageHistoryList.vue'
 import TheShareLinks from '../../components/TheShareLinks'
-import { watch } from '@vue/runtime-core'
 
 export default {
 	setup() {
 		const store = useStore()
 		const route = useRoute()
 
-		const shareLink = computed(() => location.origin + route.path)
+		const shareLink = computed(() => location.origin + route.path) // работает как часики
+		const id = computed(() => route.params.id) // работает как часики
+		const video = ref(null)
+		const categoryName = ref('unknown')
 
-		const id = computed(() => +route.params.id)
-		// console.log('id: ', id.value)
+		onMounted(() => {
+			video.value = store.getters['firebase/getVideos'].find(i => i.id === id.value)
+		})
+		watch(video, (n, o) => {
+			categoryName.value = store.getters.getCategories[n.categoryId]
+		})
+		watch(id, (newId, o) => {
+			if (!newId) return
+			video.value = store.getters['firebase/getVideos'].find(i => i.id === newId)
+		})
 
-		const video = computed(() => store.getters.getVideos?.[id.value -1])
-		// console.log('video:', video.value)
+		store.commit('localStorage/addVideo', id.value)
 
-		const categoryName = computed(() => store.getters.getCategories?.[video.value.categoryId])
+		/*
+		// NEED CHANGE FROM DEFAULT
+		const categoryName = computed(() => store.getters.getCategories[0]) // по дефолту всегда Ted En
+		const video = ref(null)
+
+		// первая загрузка страницы
+		onMounted(async () => {
+			video.value = await store.dispatch('request/requestVideoById', id.value)
+			await store.dispatch('request/requestAddOneView', { data: video.value, id: id.value })
+		})
+
+		// детектим смену id и меняем ролик
+		watch(id, async (newId, o) => {
+			if (!id.value) return
+			
+			const videoInStore = computed(() => store.getters['request/getVideos'][newId])
+			
+			// если не находим видео в общем сотре
+			// подгрудаем из бд
+			if (!videoInStore.value) {
+				video.value = await store.dispatch('request/requestVideoById', newId)
+			} else {
+				video.value = videoInStore.value
+			}
+
+			await store.dispatch('request/requestAddOneView', { data: video.value, id: newId })
+		})
 
 		// dynamic title		
 		const title = computed(() => video?.value?.title)
 		if (title.value) document.title = title.value
 		watch(title, (n, o) => n ? document.title = n : store.getters.getTitleApp)
-		
-		// watch(video, (n, o) => {
-		// 	console.log(n);
-		// 	store.commit('setTitleApp', n.title ?? store.getters.getTitleApp)
-		// })
 
 		// если открыли видео ну допустим по ссылке
 		store.commit('localStorage/addVideo', id.value)
+		*/
 
-		return { video, categoryName, shareLink }
+		return { 
+			video,
+			categoryName,
+			shareLink
+		}
 	},
-	components: { VideoPageInfoVue, VideoPagePlayerVue, VideoHistoryListVue, TheShareLinks }
+	components: { 
+		VideoPageInfo, 
+		VideoPagePlayer, 
+		VideoPageHistoryList, 
+		TheShareLinks
+	}
 }
 </script>
 

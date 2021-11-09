@@ -42,7 +42,7 @@
 		height: 100%;
 
 		background-position: center;
-		background-size: cover;
+		background-size: 120% 120%; // cover // в % что бы небыло тайтла с низу
 		background-repeat: no-repeat;
 		background-color: var(--body-bg);
 		background-image: url('https://via.placeholder.com/250x140');

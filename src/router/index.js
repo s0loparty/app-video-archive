@@ -11,13 +11,11 @@ import DashboardAddVideo from '@/views/dashboard/AddVideo'
 
 import Error404 from '@/views/404'
 
-const mainTitle = 'Архив In Cor Cadit'
-
 const routes = [
 	{
 		path: '/',
 		name: 'videos',
-		meta: { title: mainTitle },
+		meta: { title: store.getters.getTitleApp },
 		component: VideosMainList
 	},
 	{
@@ -46,7 +44,7 @@ const routes = [
 		path: '/:pathMatch(.*)*', 
 		name: '404',
 		component: Error404,
-		// component: () =>import('../views/404.vue'),
+		// component: () => import('../views/404.vue'),
 		meta: {
 			title: 'Ошибка 404'
 		}
@@ -69,7 +67,7 @@ router.beforeEach((to, from, next) => {
 	// mainTitle
 	// document.title = to.meta.title ?? store.getters.getTitleApp
 	// document.title = to.meta.title && computed(() => store.getters.getTitleApp).value
-	document.title = to.meta.title ?? mainTitle
+	document.title = to.meta.title ?? store.getters.getTitleApp
 	// console.log('document.title:', store.getters.getTitleApp)
 	
 	// off mobile menu
@@ -79,10 +77,10 @@ router.beforeEach((to, from, next) => {
 
 	// для страницы с видео если id или ролик по id не найдены
 	if (to.name === 'video-page') {
-		const id = +to.params.id
-		const video = store.getters.getVideos?.[id -1]
+		const id = to.params.id
+		// const video = store.getters.getVideos?.[id -1]
 
-		if (!id || !video) {
+		if (!id /*|| !video*/) {
 			return next('/404')
 		}
 	}

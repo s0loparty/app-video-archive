@@ -1,24 +1,19 @@
-import { createStore } from 'vuex'
+import { createStore, createLogger } from 'vuex'
 
 import localStorageModule from './modules/localStorage.module'
 import requestModule from './modules/request.module'
-
-import dataVideos from './data/videos.json'
-import dataСategories from './data/categories.json'
+import firebaseModule from './modules/firebase.module'
 
 export default createStore({
+	plugins: process.env.NODE_ENV !== 'production' ? [createLogger()]: [],
 	state: {
-		categories: dataСategories,
-		videos: dataVideos,
+		categories: ['Ted Ed', 'School of Life'],
 		mobileMenu: false,
 		titleApp: 'Архив In Cor Cadit'
 	},
 	getters: {
 		getCategories(state) {
 			return state.categories
-		},
-		getVideos(state) {
-			return state.videos
 		},
 		mobileMenu(state) {
 			return state.mobileMenu
@@ -28,9 +23,6 @@ export default createStore({
 		}
 	},
 	mutations: {
-		addVideoView(state, id) {
-			state.videos[id -1].views++
-		},
 		toggleMobileMenu(state) {
 			state.mobileMenu = !state.mobileMenu
 		},
@@ -41,6 +33,7 @@ export default createStore({
 	actions: {},
 	modules: {
 		localStorage: localStorageModule,
-		request: requestModule
+		request: requestModule,
+		firebase: firebaseModule
 	}
 })

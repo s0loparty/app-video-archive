@@ -4,9 +4,18 @@
 			<div class="video__wrap card">
 				<section class="video__header">
 					<h2 class="video__header-title title">Ролики которые Вы смотрели</h2>
-					<p v-if="!videos.length" style="margin-bottom: 0;">История просмотров пуста</p>
+					<Multiselect 
+						v-model="currentCategoryId"
+						:options="categories"
+						:native="false"
+						label="name"
+						rules="required"
+						placeholder="Выберите категорию"
+					></Multiselect>
 				</section>
-				<VideoListVue :videos="videos"></VideoListVue>
+				
+				<VideoList v-if="videosHistoryFiltred.length" :videos="videosHistoryFiltred"></VideoList>
+				<div v-else class="video__wrap card">История просмотров пуста</div>
 			</div>
 		</div>
 	</section>
@@ -15,34 +24,81 @@
 <script>
 import { computed, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
-import { provide } from '@vue/runtime-core'
+import { onMounted, provide, watch } from '@vue/runtime-core'
 
-import VideoListVue from "../../components/VideoList.vue"
+import VideoList from "../../components/VideoList.vue"
+import Multiselect from '@vueform/multiselect'
 
 export default {
 	setup() {
 		const store = useStore()
-
-		const allVideos = ref(store.getters.getVideos)
-		const historyIds = ref(store.getters['localStorage/getHistory'])
-
-		const videos = computed(() => {
-			return historyIds.value.map((value, idx, arr) => {
-				return allVideos.value.find(item => item.id == value)
-			})
-		})
 		
-		// const videos = ref([])
-		// videos.value = historyIds.value.map((value, idx, arr) => {
-		// 	return allVideos.value.find(item => item.id == value)
+		const categories = computed(() => store.getters.getCategories.map((item, idx) => {
+			return { value: idx, name: item}
+		}))
+		const currentCategoryId = ref(null)
+		// const currentCategoryName = ref(null)
+
+		const idsLocal = computed(() => store.getters['localStorage/getHistory'])
+		const allVideos = computed(() => store.getters['firebase/getVideos'])		
+		
+		const videosHistory = ref(idsLocal.value.map(value => {
+			return allVideos.value.find(item => item.id === value)
+		}))
+
+		const videosHistoryFiltred = ref(videosHistory.value)
+		
+		// onMounted(() => {
+			// videosHistory.value = idsLocal.value.map(value => {
+			// 	return allVideos.value.find(item => item.id === value)
+			// })
 		// })
 
+		// фильтр роликов
+		watch(currentCategoryId, (catId, o) => {
+			videosHistoryFiltred.value = (catId !== null) 
+				? videosHistory.value.filter(v => v.categoryId === catId) 
+				: videosHistory.value
+		})
+
+		/* 
+		watch(allVideos, async (n, o) => {
+			videosHistory.value = await idsLocal.map((value, idx, arr) => {
+				return n.find(item => item.id === value)
+			})
+		})
+
+		onMounted(async () => {
+			if (!allVideos.value?.length) {
+				await store.dispatch('request/requestVideos')
+
+				watch(allVideos, async (n, o) => {
+					videosHistory.value = await idsLocal.map((value, idx, arr) => {
+						return n.find(item => item.id === value)
+					})
+				})
+			} else {
+				videosHistory.value = idsLocal.map((value, idx, arr) => {
+					return allVideos.value.find(item => item.id === value)
+				})
+			}
+		})
+
+		const selectCategory = name => 
+			currentCategory.value = (categories.indexOf(name) !== -1) ? categories.indexOf(name) : null
+		
+		*/
+		
 		provide('removeLink', true)
 
-		// console.log(videos.value)
 
-		return { videos }
+		return { 
+			videosHistory, 
+			videosHistoryFiltred,
+			categories, 
+			currentCategoryId, 
+		}
 	},
-	components: { VideoListVue }
+	components: { VideoList, Multiselect }
 }
 </script>

@@ -11,12 +11,16 @@
 							<input v-model="video.title" type="text" id="title" class="form__input">
 						</div>
 						<div class="form__group">
-							<label for="previewSrc" class="form__label">Ссылка на превью (Постер для форума)</label>
-							<input v-model="video.preview" type="text" id="previewSrc" class="form__input">
+							<label for="googleLink" class="form__label">Google ссылка на видео</label>
+							<input v-model="video.glink" type="text" id="googleLink" class="form__input">
 						</div>
 						<div class="form__group">
-							<label for="videoSrc" class="form__label">Ссылка на видео (Код для вставки)</label>
-							<input v-model="video.source" type="text" id="videoSrc" class="form__input">
+							<label for="source" class="form__label">Прямая ссылка на видео</label>
+							<input v-model="video.source" disabled type="text" id="source" class="form__input">
+						</div>
+						<div class="form__group">
+							<label for="googleId" class="form__label">ID google video</label>
+							<input v-model="video.gId" disabled type="text" id="googleId" class="form__input">
 						</div>
 						<div class="form__group">
 							<label for="category" class="form__label">Категоиря</label>
@@ -25,13 +29,20 @@
 								<option v-for="(title, idx) in categories" :key="title" :value="idx">{{ title }}</option>
 							</select>
 						</div>
-						<button type="submit" :disabled="!checkIsOkey">Добавить</button>
-						<button @click="check" type="button">Проверить</button>
+						<button type="submit">Добавить</button>
 					</form>
 				</section>
-				<section>
-					<img :src="video.preview" />
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quas dignissimos illum, quidem sit numquam pariatur tempore et. Tempora laudantium quia alias deleniti dolorem quis. Repudiandae ea laudantium, beatae ipsam vel voluptas adipisci similique nulla voluptates. Facilis velit quibusdam repellat sunt quaerat enim, neque sit labore dolorum nesciunt, nam voluptatum?</p>
+				<section style="flex: 1 0 0">
+					<!-- <img :src="video.preview" /> -->
+					<h3>{{ video.title }}</h3>
+					<!-- <iframe :src="video.source" frameborder="0" width="100%" height="280px"></iframe> -->
+
+					<hr>
+					<video :src="video.source" ref="videoTag" width="300" height="300" controls autoplay muted></video>
+					<canvas ref="canvasTag"></canvas>
+					<hr>
+
+					<p>Категория <strong>{{ categories[video.categoryId] }}</strong></p>
 				</section>
 			</div>
 		</div>
@@ -41,56 +52,56 @@
 <script>
 import { reactive, ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import { onMounted, watch } from '@vue/runtime-core'
 
 export default {
 	setup() {
 		const store = useStore()
+		const categories = store.getters.getCategories
 		const video = reactive({
 			title: '',
 			preview: '',
 			source: '',
-			categoryId: -1
+			glink: '',
+			gId: '',
+			categoryId: null
 		})
-		const checkIsOkey = ref(false)
+		const videoTag = ref(null)
+		const canvasTag = ref(null)
 
-		const check = () => {
-			if (!video.title || !video.preview || !video.source || video.categoryId === -1) {
-				return alert('Заполни все поля!')
-			}
+		const createPreview = () => {
+			// videoTag.value = document.querySelector("video")
+			const ctx = canvasTag.value.getContext("2d")
+			videoTag.value.addEventListener('play', function() {
+				this.currentTime = 20
 
-			// Ловушка_перфекционизма_The_School_of_Life.mp4
-			// можно еще удалять категорию из названия
-			video.title = video.title
-				?.split('.')
-				?.shift()
-				?.replaceAll('_', ' ')
 
-			// [url=https://radikal.ru/video/kxwdt1BOcOv][img]https://poster4.radikal.ru/2111/13/2fdf10d477fe.jpg[/img][/url]
-			video.preview = video.preview
-				?.split('[img]').pop()
-				?.replaceAll('[/img][/url]', '')
-
-			// <iframe width="640" height="360" src="https://radikal.ru/vf/kxwdt1BOcOv" frameborder="0" scrolling="no" allowfullscreen></iframe>
-			video.source = video.source?.match(/https:\/\/[^\s\Z]+/g)?.pop()?.replaceAll('"', '')
-
-			store.getters.getCategories.forEach(item => {
-				if (video.title.indexOf(item) !== -1) {
-					video.title = video.title.replaceAll(item, '').trim()
-				}
+				setTimeout(() => ctx.drawImage(videoTag.value, 0, 0, 300, 300), 5000)
+				setTimeout(() => ctx.drawImage(videoTag.value, 0, 0, 300, 300), 3000)
+				// this.ctx1.getImageData(0, 0, this.width, this.height)
 			})
-
-			// if vse ok
-			checkIsOkey.value = true
 		}
 
-		const submit = e => {
-			console.log('submit form => video info:', video)
+		watch(video, (n, o) => {
+			video.title = n.title?.replaceAll('_', ' ').replace('.mp4', '')
+			video.source = n.glink.split('/').slice(0, -1).join('/').replace('file/d/', 'u/0/uc?id=')
+			video.gId = n.source?.split('?').pop().slice(3)
+
+			if (video.source) {
+				createPreview()
+			}
+		})
+
+
+		const submit = () => {
+			if (!video.title || !video.source || !video.glink || !video.gId || video.categoryId !== 0)
+				return alert('Заполните все поля')
+			
+			// store.dispatch('request/addOneVideo', {...video, views: 0})
+			console.log('submit:', video)
 		}
 
-		return { 
-			video, submit, check, checkIsOkey,
-			categories: store.getters.getCategories
-		}
+		return { video, submit, categories, videoTag, canvasTag }
 	}
 }
 </script>
@@ -121,6 +132,10 @@ export default {
 		&:focus {
 			outline: none;
 			border-color: var(--color-secondary);
+		}
+		&:disabled {
+			background-color: var(--body-bg);
+			color: var(--color-secondary);
 		}
 	}
 	&__small {
