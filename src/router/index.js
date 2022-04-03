@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store'
 
-import VideosMainList from '@/views/videos/VideosMainList'
-import VideoPage from '@/views/videos/VideoPage'
-import VideoHistory from '@/views/videos/VideoHistory'
+import VideosMainList from '@/views/videos/VideosMainList.vue'
+import VideoPage from '@/views/videos/VideoPage.vue'
+import VideoHistory from '@/views/videos/VideoHistory.vue'
 
-import Dashboard from '@/views/dashboard/Dashboard'
-import DashboardAuth from '@/views/dashboard/Auth'
-import DashboardAddVideo from '@/views/dashboard/AddVideo'
+import Dashboard from '@/views/dashboard/Dashboard.vue'
+import DashboardAuth from '@/views/dashboard/Auth.vue'
+import DashboardAddVideo from '@/views/dashboard/AddVideo.vue'
 
-import Error404 from '@/views/404'
+import Error404 from '@/views/404.vue'
 
 const routes = [
 	{
@@ -52,7 +52,7 @@ const routes = [
 ]
 
 const router = createRouter({
-	history: createWebHistory(process.env.BASE_URL),
+	history: createWebHistory(import.meta.env.BASE_URL),
 	routes,
 
 	// https://next.router.vuejs.org/guide/advanced/scroll-behavior.html#scroll-behavior

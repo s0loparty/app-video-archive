@@ -40,10 +40,10 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { onMounted, watch } from '@vue/runtime-core'
 
-import VideoPagePlayer from '../../components/VideoPagePlayer.vue'
-import VideoPageInfo from '../../components/VideoPageInfo.vue'
-import VideoPageHistoryList from '../../components/VideoPageHistoryList.vue'
-import TheShareLinks from '../../components/TheShareLinks'
+import VideoPagePlayer from '@/components/VideoPagePlayer.vue'
+import VideoPageInfo from '@/components/VideoPageInfo.vue'
+import VideoPageHistoryList from '@/components/VideoPageHistoryList.vue'
+import TheShareLinks from '@/components/TheShareLinks.vue'
 
 export default {
 	setup() {

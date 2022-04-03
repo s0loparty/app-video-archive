@@ -27,7 +27,7 @@ export default {
 	actions: {
 		async addVideo({ commit }, payload) {
 			try {
-				const response = await fetch(process.env.VUE_APP_FB_URL + '/videos.json', { 
+				const response = await fetch(import.meta.env.VUE_APP_FB_URL + '/videos.json', { 
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(payload)
@@ -41,7 +41,7 @@ export default {
 		},
 		async requestVideos({ commit }) {
 			try {
-				const response = await fetch(process.env.VUE_APP_FB_URL + '/videos.json', { method: 'GET' })
+				const response = await fetch(import.meta.env.VUE_APP_FB_URL + '/videos.json', { method: 'GET' })
 				const data = await response.json()
 
 				const convertData = Object.keys(data).map(id => ({...data[id], id}))
@@ -53,7 +53,7 @@ export default {
 		},
 		async requestVideoById(_, id) {
 			try {
-				const response = await fetch(process.env.VUE_APP_FB_URL + `/videos/${id}.json`, { method: 'GET' })
+				const response = await fetch(import.meta.env.VUE_APP_FB_URL + `/videos/${id}.json`, { method: 'GET' })
 				const data = await response.json()
 
 				return data
@@ -65,7 +65,7 @@ export default {
 			try {
 				payload.data.views += 1
 				
-				await fetch(process.env.VUE_APP_FB_URL + `/videos/${payload.id}.json`, {
+				await fetch(import.meta.env.VUE_APP_FB_URL + `/videos/${payload.id}.json`, {
 					method: 'PUT',
 					// headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(payload.data)

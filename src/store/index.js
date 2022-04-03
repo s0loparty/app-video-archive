@@ -5,7 +5,7 @@ import requestModule from './modules/request.module'
 import firebaseModule from './modules/firebase.module'
 
 export default createStore({
-	plugins: process.env.NODE_ENV !== 'production' ? [createLogger()]: [],
+	plugins: import.meta.env.NODE_ENV !== 'production' ? [createLogger()]: [],
 	state: {
 		categories: ['Ted Ed', 'School of Life'],
 		mobileMenu: false,
